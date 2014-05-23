@@ -1,12 +1,18 @@
-﻿namespace Web.Models
+﻿using System;
+using System.Collections.Generic;
+using Web.Controllers;
+
+namespace Web.Models
 {
     public class Stuff
     {
-        public string ConnectionString { get; set; }
+        public IEnumerable<Account> Accounts { get; set; }
+        public Guid NewId { get; set; }
 
-        public Stuff(string connectionString)
+        public Stuff(IEnumerable<Account> accounts)
         {
-            ConnectionString = connectionString;
+            Accounts = accounts;
+            NewId = Guid.NewGuid();
         }
     }
 }

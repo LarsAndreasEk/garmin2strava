@@ -12,7 +12,22 @@
     </head>
     <body>
         <div>
-              Hei du, @Model.ConnectionString
+            @using (Html.BeginForm("New", "Home"))
+            {
+                @Html.Hidden("id", Guid.NewGuid())
+                @Html.TextBox("name")
+                <input type="submit" value="Open account"/>
+            }
+        </div>
+        <div>
+            <ul>
+    @foreach (var account in Model.Accounts)
+            {
+                <li>                    
+                    @account.Name @Html.ActionLink("Delete", "Delete", "Home", new {id = account.RowKey}, null)
+                </li>
+        }
+            </ul>
         </div>
     </body>
 </html>
