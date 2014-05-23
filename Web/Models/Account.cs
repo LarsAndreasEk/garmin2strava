@@ -11,7 +11,7 @@ namespace Web.Models
         }
         public Account(Guid id, string name)
         {
-            PartitionKey = "1";
+            PartitionKey = id.ToString();
             RowKey = id.ToString();
             Name = name;
         }

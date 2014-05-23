@@ -2,7 +2,6 @@
 using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
-using System.Web.UI.WebControls;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Table;
 using Web.Models;
@@ -22,14 +21,9 @@ namespace Web.Controllers
 
         public ActionResult Index()
         {
-            var query =
-                new TableQuery<Account>().Where(TableQuery.GenerateFilterCondition("PartitionKey",
-                    QueryComparisons.Equal, "1"));
+            var queryable = GetAccountTable().CreateQuery<Account>();
 
-            var executeQuery = GetAccountTable().ExecuteQuery(query);
-
-
-            return View(new Stuff(executeQuery));
+            return View(new Stuff(queryable));
         }
 
         [HttpPost]
@@ -41,7 +35,8 @@ namespace Web.Controllers
 
         public ActionResult Delete(Guid id)
         {
-            var account = GetAccountTable().CreateQuery<Account>().Where(x => x.PartitionKey == "1" && x.RowKey == id.ToString());
+            //var account = GetAccountTable().CreateQuery<Account>().Where(x => x.PartitionKey == "1" && x.RowKey == id.ToString());
+            var account = GetAccountTable().CreateQuery<Account>().Where(x => x.RowKey == id.ToString());
             GetAccountTable().Execute(TableOperation.Delete(account.First()));
             return RedirectToAction("Index");
         }
